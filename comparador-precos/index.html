@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparador de Preços por Unidade</title>
+  <meta name="description" content="Compare preços por kg, litro, metro, área, quantidade ou embalagem. Descubra qual opção sai mais barata, inclusive em pacotes com vários rolos ou itens." />
+  <style>
+    :root {
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --surface-alt: #eef2f6;
+      --text: #182230;
+      --muted: #526074;
+      --border: #d7dfe8;
+      --primary: #155eef;
+      --primary-hover: #1049bd;
+      --success-bg: #ecfdf3;
+      --success-border: #86efac;
+      --success-text: #166534;
+      --warn-bg: #fffbeb;
+      --warn-border: #fcd34d;
+      --warn-text: #92400e;
+      --danger-text: #b42318;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 48px;
+    }
+
+    header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .btn-shortcut {
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-shortcut:hover {
+      background: #e2e8f0;
+    }
+
+    .shortcut-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--surface-alt);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .shortcut-box.open {
+      display: block;
+    }
+
+    .shortcut-box p {
+      margin: 6px 0;
+    }
+
+    .category-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .section-kicker {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .category-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .category-buttons {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 820px) {
+      .category-buttons {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .cat-btn {
+      padding: 10px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .cat-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .category-helper {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 720px) {
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .product-card.winner {
+      border-color: var(--success-border);
+      background: var(--success-bg);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .product-label {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-winner {
+      background: var(--success-text);
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      color: var(--danger-text);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 6px;
+    }
+
+    .field {
+      margin-bottom: 11px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 9px 11px;
+      font-size: 0.98rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--text);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .item-summary {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 24px;
+    }
+
+    .item-summary strong {
+      color: var(--text);
+    }
+
+    .actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-size: 0.94rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-alt);
+    }
+
+    .summary-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .summary-box.blocked {
+      background: var(--warn-bg);
+      border-color: var(--warn-border);
+    }
+
+    .summary-box h2 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+    }
+
+    .summary-status {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .summary-status.ok {
+      color: var(--success-text);
+    }
+
+    .summary-status.warn {
+      color: var(--warn-text);
+    }
+
+    .comparison-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .comparison-list li {
+      margin-bottom: 6px;
+    }
+
+    .content-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .content-section h2 {
+      margin: 0 0 10px;
+      font-size: 1.22rem;
+    }
+
+    .content-section h3 {
+      margin: 16px 0 6px;
+      font-size: 1.05rem;
+    }
+
+    .content-section h4 {
+      margin: 12px 0 4px;
+      font-size: 0.98rem;
+    }
+
+    .content-section p {
+      margin: 0 0 10px;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <div>
+          <h1>Comparador de Preços por Unidade</h1>
+          <p class="subtitle">Compare preços por kg, litro, metro, área, quantidade ou embalagem — incluindo pacotes com vários itens.</p>
+        </div>
+        <button type="button" class="btn-shortcut" id="toggleShortcutBtn" aria-expanded="false">
+          Salvar no celular
+        </button>
+      </div>
+      <div class="shortcut-box" id="shortcutBox">
+        <strong>Como adicionar na tela inicial do celular:</strong>
+        <p><strong>Android (Chrome):</strong> toque nos três pontos (<strong>⋮</strong>) no canto superior e escolha <em>“Adicionar à tela inicial”</em>.</p>
+        <p><strong>iPhone (Safari):</strong> toque no ícone de <em>Compartilhar</em> (quadrado com seta para cima) e depois em <em>“Adicionar à Tela de Início”</em>.</p>
+      </div>
+    </header>
+
+    <section class="category-bar" aria-label="Categoria de medida">
+      <span class="section-kicker">1. Escolha a categoria de comparação (evita misturar grandezas incompatíveis)</span>
+      <div class="category-buttons">
+        <button type="button" class="cat-btn active" data-cat="mass">Massa (kg/g/mg/t)</button>
+        <button type="button" class="cat-btn" data-cat="volume">Volume (L/ml/m³)</button>
+        <button type="button" class="cat-btn" data-cat="length">Comprimento (km/m/cm/mm)</button>
+        <button type="button" class="cat-btn" data-cat="area">Área (m²/cm²)</button>
+        <button type="button" class="cat-btn" data-cat="quantity">Quantidade (un/dz/ct/mlh)</button>
+        <button type="button" class="cat-btn" data-cat="packaging">Embalagens (pct/cx/rl/fl)</button>
+      </div>
+      <p class="category-helper" id="categoryHelper"></p>
+    </section>
+
+    <section class="products-grid" id="productsGrid" aria-label="Produtos comparados"></section>
+
+    <div class="actions-bar">
+      <button type="button" class="btn-primary" id="addProductBtn">+ Adicionar produto</button>
+      <button type="button" class="btn-secondary" id="clearAllBtn">Limpar valores</button>
+    </div>
+
+    <section class="summary-box" id="summaryBox" aria-live="polite">
+      <h2>Resultado da comparação</h2>
+      <p class="summary-status" id="summaryStatus">Preencha preço e medida de pelo menos dois produtos para comparar.</p>
+      <ul class="comparison-list" id="comparisonList" style="display: none;"></ul>
+    </section>
+
+    <article class="content-section">
+      <h2>Guia prático: como descobrir qual embalagem realmente sai mais barata</h2>
+      <p>
+        Na hora de ir ao supermercado, farmácia, atacarejo ou loja de materiais, comparar apenas o preço da etiqueta pode levar a escolhas mais caras. Promoções, embalagens com pesos ou volumes diferentes e pacotes com vários itens exigem comparar o <strong>preço por unidade de medida</strong> (como <strong>R$/kg</strong>, <strong>R$/L</strong>, <strong>R$/m</strong>, <strong>R$/m²</strong> ou <strong>R$/un</strong>).
+      </p>
+
+      <h3>1. A regra básica: compare sempre na mesma unidade</h3>
+      <p>
+        Se um produto custa <strong>R$ 8,50 por 500 g</strong> e outro custa <strong>R$ 15,90 por 1 kg</strong> (1.000 g), converter ambos para <strong>R$/kg</strong> mostra o custo real: o primeiro sai a <strong>R$ 17,00/kg</strong> e o segundo a <strong>R$ 15,90/kg</strong>. Na calculadora, basta escolher a categoria <strong>Massa</strong> e informar a medida e a unidade de cada item.
+      </p>
+
+      <h3>2. Embalagem maior nem sempre é mais barata</h3>
+      <p>
+        Existe o hábito de assumir que o pacote maior ou o galão econômico sempre compensa mais. Na prática, embalagens menores em promoção, kits com desconto ou variações entre marcas podem oferecer um custo unitário menor — ou muito próximo, a ponto de não valer o espaço ocupado ou o risco de estragar antes do fim.
+      </p>
+
+      <h3>3. Como comparar pacotes com vários rolos ou itens</h3>
+      <p>
+        Quando um pacote traz vários itens com medida própria — por exemplo, um pacote com <strong>8 rolos de 30 m</strong> contra outro com <strong>6 rolos de 40 m</strong> —, o ideal é comparar pela medida total do conteúdo. Usando a categoria <strong>Comprimento</strong>, informe a <strong>Medida de cada item</strong> (30 ou 40) e a <strong>Qtd. de itens / rolos</strong> (8 ou 6) para ver o preço por metro (<strong>R$/m</strong>).
+      </p>
+
+      <h3>Perguntas frequentes (FAQ)</h3>
+
+      <h4>Quando devo usar a categoria “Embalagens” em vez de Massa, Volume ou Comprimento?</h4>
+      <p>
+        Use <strong>Embalagens</strong> (<em>pacote, caixa, rolo, folha</em>) quando quiser comparar o preço por embalagem inteira entre itens da mesma embalagem (ex.: pacote com pacote). Como cada fabricante pode variar o conteúdo interno de um rolo ou caixa, para comparar conteúdo real (como metros, litros ou quilos) escolha a categoria correspondente àquela grandeza.
+      </p>
+
+      <h4>Por que a calculadora às vezes bloqueia a comparação?</h4>
+      <p>
+        O bloqueio acontece para evitar contas enganosas — por exemplo, misturar unidades de embalagem diferentes sem tamanho padrão fixo entre si (como pacote e caixa). Escolhendo a mesma unidade ou a medida real do conteúdo, a comparação volta a funcionar normalmente.
+      </p>
+
+      <h4>Posso digitar valores com vírgula ou ponto?</h4>
+      <p>
+        Sim. Você pode preencher preços e medidas usando vírgula (como <code>12,90</code>) ou ponto (como <code>12.90</code>), e o cálculo é atualizado na hora, sem precisar recarregar a página.
+      </p>
+
+      <h4>Os cálculos servem para qualquer tipo de compra?</h4>
+      <p>
+        Sim, para qualquer comparação matemática de preço por unidade de medida. Lembre-se apenas de conferir o peso líquido, volume ou quantidade informada na embalagem antes de finalizar a compra.
+      </p>
+    </article>
+
+    <footer>
+      Ferramenta informativa para comparação de preços. Confira sempre as informações na embalagem antes da compra.
+    </footer>
+  </div>
+
+  <script>
+    const CATEGORIES = {
+      mass: {
+        label: "Massa",
+        baseLabel: "kg",
+        defaultUnit: "g",
+        helper: "Compara automaticamente para R$/kg. Ex.: 250 g vs. 1 kg vs. 0,001 t.",
+        units: [
+          { value: "mg", label: "miligrama (mg)", factor: 0.000001 },
+          { value: "g", label: "grama (g)", factor: 0.001 },
+          { value: "kg", label: "quilograma (kg)", factor: 1 },
+          { value: "t", label: "tonelada (t)", factor: 1000 }
+        ]
+      },
+      volume: {
+        label: "Volume",
+        baseLabel: "L",
+        defaultUnit: "ml",
+        helper: "Compara automaticamente para R$/L. Ex.: 900 ml vs. 2 L vs. 0,002 m³.",
+        units: [
+          { value: "ml", label: "mililitro (ml)", factor: 0.001 },
+          { value: "L", label: "litro (L)", factor: 1 },
+          { value: "m3", label: "metro cúbico (m³)", factor: 1000 }
+        ]
+      },
+      length: {
+        label: "Comprimento",
+        baseLabel: "m",
+        defaultUnit: "m",
+        helper: "Compara automaticamente para R$/m. Ideal para rolos com medidas diferentes (ex.: 8 rolos de 30 m vs. 6 rolos de 40 m).",
+        units: [
+          { value: "mm", label: "milímetro (mm)", factor: 0.001 },
+          { value: "cm", label: "centímetro (cm)", factor: 0.01 },
+          { value: "m", label: "metro (m)", factor: 1 },
+          { value: "km", label: "quilômetro (km)", factor: 1000 }
+        ]
+      },
+      area: {
+        label: "Área",
+        baseLabel: "m²",
+        defaultUnit: "m2",
+        helper: "Compara automaticamente para R$/m². Ex.: caixa cobrindo 2,4 m² vs. outra cobrindo 18.000 cm².",
+        units: [
+          { value: "cm2", label: "centímetro quadrado (cm²)", factor: 0.0001 },
+          { value: "m2", label: "metro quadrado (m²)", factor: 1 }
+        ]
+      },
+      quantity: {
+        label: "Quantidade",
+        baseLabel: "un",
+        defaultUnit: "un",
+        helper: "Compara automaticamente para R$/un. Considera unidade (1), dúzia (12), centena (100) e milhar (1.000).",
+        units: [
+          { value: "un", label: "unidade (un)", factor: 1 },
+          { value: "dz", label: "dúzia (12 un)", factor: 12 },
+          { value: "ct", label: "centena (100 un)", factor: 100 },
+          { value: "mlh", label: "milhar (1.000 un)", factor: 1000 }
+        ]
+      },
+      packaging: {
+        label: "Embalagens",
+        baseLabel: null,
+        defaultUnit: "pct",
+        helper: "Compara diretamente quando todos os itens usam a mesma embalagem (ex.: pacote com pacote). Misturar embalagem diferente sem equivalência é bloqueado.",
+        units: [
+          { value: "pct", label: "pacote (pct)", factor: 1 },
+          { value: "cx", label: "caixa (cx)", factor: 1 },
+          { value: "rl", label: "rolo (rl)", factor: 1 },
+          { value: "fl", label: "folha (fl)", factor: 1 }
+        ]
+      }
+    };
+
+    let currentCat = "mass";
+    let products = [
+      createProduct(1),
+      createProduct(2)
+    ];
+
+    function createProduct(id) {
+      return {
+        id,
+        price: "",
+        measure: "",
+        unit: CATEGORIES[currentCat].defaultUnit,
+        itemCount: "1"
+      };
+    }
+
+    function parseNum(val) {
+      if (typeof val !== "string") return NaN;
+      const normalized = val.trim().replace(",", ".");
+      if (!normalized) return NaN;
+      return Number(normalized);
+    }
+
+    function formatBRL(value) {
+      return value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function formatNum(value, maxDecimals = 2) {
+      return value.toLocaleString("pt-BR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: maxDecimals
+      });
+    }
+
+    function computeProduct(product) {
+      const catConfig = CATEGORIES[currentCat];
+      const price = parseNum(product.price);
+      const measure = parseNum(product.measure);
+      const itemCount = parseNum(product.itemCount);
+
+      if (!(price > 0) || !(measure > 0) || !(itemCount > 0)) {
+        return null;
+      }
+
+      const unitObj = catConfig.units.find((u) => u.value === product.unit) || catConfig.units[0];
+      const totalNormalized = measure * unitObj.factor * itemCount;
+
+      if (!(totalNormalized > 0)) {
+        return null;
+      }
+
+      const unitLabel = currentCat === "packaging" ? unitObj.label.split(" ")[0] : catConfig.baseLabel;
+      return {
+        unitValue: unitObj.value,
+        unitLabel,
+        totalNormalized,
+        pricePerNormalized: price / totalNormalized
+      };
+    }
+
+    function setCategory(newCat) {
+      if (!CATEGORIES[newCat]) return;
+      currentCat = newCat;
+
+      document.querySelectorAll(".cat-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.cat === newCat);
+      });
+
+      const defaultUnit = CATEGORIES[newCat].defaultUnit;
+      products = products.map((p) => ({
+        ...p,
+        unit: defaultUnit
+      }));
+
+      render();
+    }
+
+    function addProduct() {
+      const nextId = products.reduce((acc, p) => Math.max(acc, p.id), 0) + 1;
+      products.push(createProduct(nextId));
+      render();
+    }
+
+    function removeProduct(id) {
+      if (products.length <= 2) return;
+      products = products.filter((p) => p.id !== id);
+      render();
+    }
+
+    function clearAll() {
+      const defaultUnit = CATEGORIES[currentCat].defaultUnit;
+      products = products.map((p) => ({
+        ...p,
+        price: "",
+        measure: "",
+        unit: defaultUnit,
+        itemCount: "1"
+      }));
+      render();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function escapeAttr(str) {
+      return escapeHtml(str).replace(/'/g, "&#39;");
+    }
+
+    function render() {
+      const grid = document.getElementById("productsGrid");
+      const helper = document.getElementById("categoryHelper");
+      const catConfig = CATEGORIES[currentCat];
+
+      helper.textContent = catConfig.helper;
+      grid.innerHTML = "";
+
+      products.forEach((p, idx) => {
+        const label = `Produto ${idx + 1}`;
+        const calc = computeProduct(p);
+        const unitOptions = catConfig.units
+          .map((u) => `<option value="${u.value}" ${p.unit === u.value ? "selected" : ""}>${u.label}</option>`)
+          .join("");
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.dataset.id = String(p.id);
+
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="product-label">${label}</span>
+            <div class="card-actions">
+              ${products.length > 2 ? `<button type="button" class="btn-remove" data-remove-id="${p.id}">Remover</button>` : ""}
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="price-${p.id}">Preço (R$)</label>
+              <input type="text" inputmode="decimal" id="price-${p.id}" placeholder="Ex.: 24,00" value="${escapeAttr(p.price)}" data-id="${p.id}" data-field="price" />
+            </div>
+
+            <div class="field">
+              <label for="unit-${p.id}">Unidade de medida</label>
+              <select id="unit-${p.id}" data-id="${p.id}" data-field="unit">
+                ${unitOptions}
+              </select>
+            </div>
+          </div>
+
+          <div class="row-2">
+            <div class="field">
+              <label for="measure-${p.id}">Medida de cada item</label>
+              <input type="text" inputmode="decimal" id="measure-${p.id}" placeholder="Ex.: 30" value="${escapeAttr(p.measure)}" data-id="${p.id}" data-field="measure" />
+            </div>
+
+            <div class="field">
+              <label for="items-${p.id}">Qtd. de itens / rolos</label>
+              <input type="text" inputmode="decimal" id="items-${p.id}" placeholder="1" value="${escapeAttr(p.itemCount)}" data-id="${p.id}" data-field="itemCount" />
+            </div>
+          </div>
+
+          <div class="item-summary">
+            ${calc
+              ? `Total: <strong>${formatNum(calc.totalNormalized, 3)} ${calc.unitLabel}</strong> · Preço por ${calc.unitLabel}: <strong>${formatBRL(calc.pricePerNormalized)} / ${calc.unitLabel}</strong>`
+              : "Informe preço e medida de cada item para calcular."
+            }
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      grid.querySelectorAll("input, select").forEach((el) => {
+        const evt = el.tagName === "SELECT" ? "change" : "input";
+        el.addEventListener(evt, (e) => {
+          const id = Number(e.target.dataset.id);
+          const field = e.target.dataset.field;
+          const target = products.find((item) => item.id === id);
+          if (!target || !field) return;
+          target[field] = e.target.value;
+          updateComparison();
+        });
+      });
+
+      grid.querySelectorAll(".btn-remove").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          removeProduct(Number(btn.dataset.removeId));
+        });
+      });
+
+      updateComparison();
+    }
+
+    function updateComparison() {
+      const summaryBox = document.getElementById("summaryBox");
+      const summaryStatus = document.getElementById("summaryStatus");
+      const comparisonList = document.getElementById("comparisonList");
+      const cards = document.querySelectorAll(".product-card");
+
+      const entries = products.map((p, idx) => {
+        const label = `Produto ${idx + 1}`;
+        const calc = computeProduct(p);
+        return { id: p.id, idx, label, calc };
+      });
+
+      entries.forEach((entry, idx) => {
+        const card = cards[idx];
+        if (!card) return;
+        const summaryEl = card.querySelector(".item-summary");
+        if (summaryEl) {
+          summaryEl.innerHTML = entry.calc
+            ? `Total: <strong>${formatNum(entry.calc.totalNormalized, 3)} ${entry.calc.unitLabel}</strong> · Preço por ${entry.calc.unitLabel}: <strong>${formatBRL(entry.calc.pricePerNormalized)} / ${entry.calc.unitLabel}</strong>`
+            : "Informe preço e medida de cada item para calcular.";
+        }
+      });
+
+      const valid = entries.filter((e) => e.calc !== null);
+
+      cards.forEach((card) => {
+        card.classList.remove("winner");
+        const badge = card.querySelector(".badge-winner");
+        if (badge) badge.remove();
+      });
+
+      summaryBox.classList.remove("blocked");
+      summaryStatus.classList.remove("ok", "warn");
+
+      if (valid.length < 2) {
+        summaryStatus.textContent = "Preencha preço e medida de pelo menos dois produtos para comparar.";
+        comparisonList.style.display = "none";
+        comparisonList.innerHTML = "";
+        return;
+      }
+
+      if (currentCat === "packaging") {
+        const distinctPackUnits = new Set(valid.map((v) => v.calc.unitValue));
+        if (distinctPackUnits.size > 1) {
+          summaryBox.classList.add("blocked");
+          summaryStatus.classList.add("warn");
+          summaryStatus.textContent =
+            "Comparação bloqueada: você selecionou embalagens diferentes (ex.: pacote, caixa, rolo ou folha), que não têm tamanho padrão fixo entre si. Use a mesma unidade de embalagem ou mude para a categoria da medida real do conteúdo.";
+          comparisonList.style.display = "none";
+          comparisonList.innerHTML = "";
+          return;
+        }
+      }
+
+      valid.sort((a, b) => a.calc.pricePerNormalized - b.calc.pricePerNormalized);
+      const best = valid[0];
+      const second = valid[1];
+
+      const winnerCard = document.querySelector(`.product-card[data-id="${best.id}"]`);
+      if (winnerCard) {
+        winnerCard.classList.add("winner");
+        const actionsDiv = winnerCard.querySelector(".card-actions");
+        if (actionsDiv && !actionsDiv.querySelector(".badge-winner")) {
+          const badge = document.createElement("span");
+          badge.className = "badge-winner";
+          badge.textContent = "Mais barato";
+          actionsDiv.prepend(badge);
+        }
+      }
+
+      const savingsVsSecond = ((second.calc.pricePerNormalized - best.calc.pricePerNormalized) / second.calc.pricePerNormalized) * 100;
+
+      summaryStatus.classList.add("ok");
+      summaryStatus.textContent =
+        `${best.label} é o mais barato (${formatBRL(best.calc.pricePerNormalized)} / ${best.calc.unitLabel}) — ` +
+        `${formatNum(savingsVsSecond, 1)}% mais econômico que ${second.label}.`;
+
+      comparisonList.style.display = "block";
+      comparisonList.innerHTML = valid
+        .map((item, position) => {
+          if (position === 0) {
+            return `<li><strong>${escapeHtml(item.label)}:</strong> ${formatBRL(item.calc.pricePerNormalized)} / ${item.calc.unitLabel} <em>(menor preço unitário)</em></li>`;
+          }
+          const diffPct = ((item.calc.pricePerNormalized - best.calc.pricePerNormalized) / best.calc.pricePerNormalized) * 100;
+          return `<li><strong>${escapeHtml(item.label)}:</strong> ${formatBRL(item.calc.pricePerNormalized)} / ${item.calc.unitLabel} (+${formatNum(diffPct, 1)}% acima do mais barato)</li>`;
+        })
+        .join("");
+    }
+
+    document.querySelectorAll(".cat-btn").forEach((btn) => {
+      btn.addEventListener("click", () => setCategory(btn.dataset.cat));
+    });
+
+    document.getElementById("addProductBtn").addEventListener("click", addProduct);
+    document.getElementById("clearAllBtn").addEventListener("click", clearAll);
+
+    const shortcutBtn = document.getElementById("toggleShortcutBtn");
+    const shortcutBox = document.getElementById("shortcutBox");
+    shortcutBtn.addEventListener("click", () => {
+      const open = shortcutBox.classList.toggle("open");
+      shortcutBtn.setAttribute("aria-expanded", String(open));
+    });
+
+    render();
+  </script>
+</body>
+</html>
