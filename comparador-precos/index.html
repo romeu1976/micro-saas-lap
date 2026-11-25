@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comparador de Preços por Unidade</title>
+  <meta name="google-site-verification" content="RjLbokirzDms_mRlaeNsjQICfXBWl8bO95yAbyRcK9w" />
+  <title>Comparador de Preços por Unidade — R$/kg, R$/L, R$/m e Embalagens</title>
   <meta name="description" content="Compare preços por kg, litro, metro, área, quantidade ou embalagem. Descubra qual opção sai mais barata, inclusive em pacotes com vários rolos ou itens." />
+  <link rel="canonical" href="https://calculadoras-uteis.pages.dev/comparador-precos/" />
   <style>
     :root {
       --bg: #f6f8fa;
@@ -34,21 +36,39 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .container {
       max-width: 960px;
       margin: 0 auto;
-      padding: 20px 16px 48px;
+      padding: 24px 16px 48px;
     }
 
     header {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 22px 20px;
+      margin-bottom: 18px;
+    }
+
+    .top-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+    }
+
+    .top-nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .top-nav a:hover {
+      text-decoration: underline;
     }
 
     .header-top {
@@ -61,14 +81,14 @@
 
     h1 {
       margin: 0 0 6px;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       line-height: 1.25;
     }
 
     .subtitle {
       margin: 0;
       color: var(--muted);
-      font-size: 0.96rem;
+      font-size: 0.98rem;
     }
 
     .btn-shortcut {
@@ -101,15 +121,16 @@
     }
 
     .shortcut-box p {
-      margin: 6px 0;
+      margin: 6px 0 0;
+      color: var(--muted);
     }
 
     .category-bar {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px;
-      margin-bottom: 16px;
+      padding: 16px;
+      margin-bottom: 18px;
     }
 
     .section-kicker {
@@ -159,6 +180,7 @@
 
     .category-helper {
       margin-top: 10px;
+      margin-bottom: 0;
       font-size: 0.88rem;
       color: var(--muted);
     }
@@ -180,7 +202,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 18px;
     }
 
     .product-card.winner {
@@ -386,18 +408,44 @@
     footer {
       text-align: center;
       color: var(--muted);
-      font-size: 0.85rem;
-      padding-top: 6px;
+      font-size: 0.88rem;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      margin-top: 24px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
+      <nav class="top-nav" aria-label="Navegação principal">
+        <a href="../">← Início</a>
+        <a href="../metabolismo/">Metabolismo</a>
+        <a href="../sobre/">Sobre</a>
+        <a href="../privacidade/">Privacidade</a>
+      </nav>
       <div class="header-top">
         <div>
           <h1>Comparador de Preços por Unidade</h1>
-          <p class="subtitle">Compare preços por kg, litro, metro, área, quantidade ou embalagem — incluindo pacotes com vários itens.</p>
+          <p class="subtitle">Compare preços por kg, litro, metro, área, quantidade ou embalagem — incluindo pacotes com vários rolos ou itens.</p>
         </div>
         <button type="button" class="btn-shortcut" id="toggleShortcutBtn" aria-expanded="false">
           Salvar no celular
@@ -481,7 +529,13 @@
     </article>
 
     <footer>
-      Ferramenta informativa para comparação de preços. Confira sempre as informações na embalagem antes da compra.
+      <div class="footer-links">
+        <a href="../">Início</a>
+        <a href="../metabolismo/">Metabolismo</a>
+        <a href="../sobre/">Sobre</a>
+        <a href="../privacidade/">Política de Privacidade</a>
+      </div>
+      <p>Ferramenta informativa para comparação de preços. Confira sempre as informações na embalagem antes da compra.</p>
     </footer>
   </div>
 
