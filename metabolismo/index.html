@@ -14,6 +14,7 @@
       --surface-alt: #f0f4f8;
       --text: #182230;
       --muted: #526074;
+      --text-muted: #475569;
       --border: #d7dfe8;
       --primary: #155eef;
       --primary-hover: #1049bd;
@@ -27,7 +28,9 @@
       --radius: 12px;
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
@@ -45,7 +48,7 @@
       padding: 24px 16px 56px;
     }
 
-    header {
+    .tool-header {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -58,16 +61,19 @@
       flex-wrap: wrap;
       gap: 14px;
       margin-bottom: 12px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .top-nav a {
-      color: var(--primary);
+      color: var(--text-muted);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
+      transition: color 0.15s ease;
     }
 
-    .top-nav a:hover {
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--text);
       text-decoration: underline;
     }
 
@@ -411,19 +417,36 @@
 
     footer {
       text-align: center;
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
       padding-top: 12px;
       border-top: 1px solid var(--border);
+      margin-top: 24px;
     }
 
-    footer a {
-      color: var(--primary);
+    .footer-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
+      transition: color 0.15s ease;
     }
 
-    footer a:hover {
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      color: var(--text);
       text-decoration: underline;
     }
 
@@ -469,15 +492,16 @@
 </head>
 <body>
   <div class="container">
-    <header>
+    <header class="tool-header">
       <nav class="top-nav" aria-label="Navegação principal">
-        <a href="../">← Início</a>
-        <a href="../comparador-precos/">Comparador de Preços</a>
-        <a href="../sobre/">Sobre</a>
-        <a href="../privacidade/">Privacidade</a>
+        <a href="/">Home</a>
+        <a href="/guias/">Guias</a>
+        <a href="/sobre/">Sobre</a>
+        <a href="/privacidade/">Privacidade</a>
+        <a href="/contato/">Contato</a>
       </nav>
       <h1>Calculadora de Metabolismo e Emagrecimento</h1>
-      <p class="subtitle">Estime sua Taxa Metabólica Basal (TMB), gasto calórico diário, déficit a partir da meta semanal ou mensal, IMC e faixa de peso de referência.</p>
+      <p class="subtitle">Estime sua Taxa Metabólica Basal (TMB), gasto calórico diário, meta de perda de peso por semana ou mês, IMC e faixa de peso de referência.</p>
     </header>
 
     <div class="main-grid">
@@ -642,7 +666,16 @@
     </article>
 
     <footer>
-      <a href="../">Início</a> · <a href="../comparador-precos/">Comparador de Preços</a> · <a href="../sobre/">Sobre</a> · <a href="../privacidade/">Política de Privacidade</a>
+      <div class="footer-inner">
+        <nav class="footer-links" aria-label="Links do rodapé">
+          <a href="/">Home</a>
+          <a href="/guias/">Guias</a>
+          <a href="/sobre/">Sobre</a>
+          <a href="/privacidade/">Privacidade</a>
+          <a href="/contato/">Contato</a>
+        </nav>
+        <p>Ferramenta informativa para estimativas metabólicas. Os cálculos não substituem orientação profissional.</p>
+      </div>
     </footer>
   </div>
 
