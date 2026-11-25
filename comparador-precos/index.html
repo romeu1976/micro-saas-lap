@@ -14,6 +14,7 @@
       --surface-alt: #eef2f6;
       --text: #182230;
       --muted: #526074;
+      --text-muted: #475569;
       --border: #d7dfe8;
       --primary: #155eef;
       --primary-hover: #1049bd;
@@ -60,16 +61,19 @@
       flex-wrap: wrap;
       gap: 14px;
       margin-bottom: 14px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
 
     .top-nav a {
-      color: var(--primary);
+      color: var(--text-muted);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
+      transition: color 0.15s ease;
     }
 
-    .top-nav a:hover {
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      color: var(--text);
       text-decoration: underline;
     }
 
@@ -409,8 +413,8 @@
 
     footer {
       text-align: center;
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
       padding-top: 12px;
       border-top: 1px solid var(--border);
       margin-top: 24px;
@@ -430,12 +434,15 @@
     }
 
     .footer-links a {
-      color: var(--primary);
+      color: var(--text-muted);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 500;
+      transition: color 0.15s ease;
     }
 
-    .footer-links a:hover {
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      color: var(--text);
       text-decoration: underline;
     }
   </style>
