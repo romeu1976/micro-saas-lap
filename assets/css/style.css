@@ -82,7 +82,12 @@ body {
   border-bottom-color: var(--primary);
 }
 
-/* ---------- Container Principal ---------- */
+/* ---------- Área Principal & Container ---------- */
+main {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -282,3 +287,71 @@ details {
 
 details:last-of-type {
   border-bottom: none;
+}
+
+summary {
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary::before {
+  content: "+ ";
+  color: var(--primary);
+  font-weight: 700;
+}
+
+details[open] summary::before {
+  content: "− ";
+}
+
+details p {
+  margin: 0.65rem 0 0;
+  color: var(--text-muted);
+}
+
+.related-bridge {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: 8px;
+  background-color: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.related-bridge p {
+  margin: 0;
+}
+
+/* ---------- Tabelas Responsivas ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background-color: var(--surface-alt);
+  font-weight: 600;
+}
+
+/* ---------- Rodapé ---------- */
+.site-footer {
+  margin-top: auto;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background-color: var(--surface);
+  padding: 1.5rem 1.25rem;
+  font-size: 0.9rem;
+  color: var(--
