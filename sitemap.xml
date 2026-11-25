@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://calculadoras-uteis.pages.dev/metabolismo/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://calculadoras-uteis.pages.dev/sobre/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
