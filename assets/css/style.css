@@ -30,6 +30,9 @@ html {
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   line-height: 1.65;
   color: var(--text);
@@ -59,11 +62,18 @@ body {
   font-size: 0.95rem;
   padding: 0.25rem 0;
   border-bottom: 2px solid transparent;
+  border-radius: 2px;
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 
-.top-nav a:hover {
+.top-nav a:hover,
+.top-nav a:focus-visible {
   color: var(--primary);
+}
+
+.top-nav a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }
 
 .top-nav a[aria-current="page"] {
@@ -74,6 +84,7 @@ body {
 
 /* ---------- Container Principal ---------- */
 .container {
+  width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 2rem 1.25rem 3rem;
@@ -209,7 +220,8 @@ select:focus {
   color: #ffffff;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus-visible {
   background-color: var(--primary-hover);
   color: #ffffff;
 }
@@ -219,3 +231,54 @@ select:focus {
   color: var(--text);
   border-color: var(--border);
 }
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  background-color: var(--border);
+}
+
+/* ---------- Painel de Resultado & Avisos ---------- */
+.result-panel {
+  margin-top: 1.25rem;
+  padding: 1.15rem;
+  border-radius: 8px;
+  background-color: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+}
+
+.result-highlight {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.35rem;
+}
+
+.result-actions {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.disclaimer-box {
+  background-color: var(--surface-alt);
+  border-left: 4px solid var(--primary);
+  border-radius: 6px;
+  padding: 0.95rem 1.15rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.93rem;
+  color: var(--text-muted);
+}
+
+.disclaimer-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- FAQ (<details>) & Ponte Interna ---------- */
+details {
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 0;
+}
+
+details:last-of-type {
+  border-bottom: none;
