@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="RjLbokirzDms_mRlaeNsjQICfXBWl8bO95yAbyRcK9w" />
+  <title>{{TITULO_CALCULADORA}} — Calculadoras Práticas</title>
+  <meta name="description" content="{{DESCRICAO_SEO}}" />
+  <link rel="canonical" href="https://calculadoras-uteis.pages.dev/{{SLUG}}/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{TITULO_CALCULADORA}} — Calculadoras Práticas" />
+  <meta property="og:description" content="{{DESCRICAO_OG}}" />
+  <meta property="og:url" content="https://calculadoras-uteis.pages.dev/{{SLUG}}/" />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Navegação principal">
+      <a href="/">Home</a>
+      <a href="/guias/">Guias</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/privacidade/">Privacidade</a>
+      <a href="/contato/">Contato</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <header class="tool-header">
+      <h1>{{NOME_DA_CALCULADORA}}</h1>
+      <p class="subtitle">{{SUBTITULO_CURTO_E_DIRETO}}</p>
+    </header>
+
+    <section class="calculator-card" aria-label="Formulário da calculadora">
+      <form id="calc-form" novalidate>
+        <div class="form-group">
+          <label for="campo-1">{{ROTULO_CAMPO_1}}</label>
+          <input type="number" id="campo-1" name="campo1" step="any" placeholder="{{EXEMPLO_CAMPO_1}}" required />
+        </div>
+
+        <div class="form-group">
+          <label for="campo-2">{{ROTULO_CAMPO_2}}</label>
+          <select id="campo-2" name="campo2">
+            <option value="opcao-1">{{OPCAO_1}}</option>
+            <option value="opcao-2">{{OPCAO_2}}</option>
+          </select>
+        </div>
+
+        <div class="result-actions">
+          <button type="submit" class="btn-primary">{{TEXTO_BOTAO_CALCULAR}}</button>
+          <button type="button" class="btn-secondary" id="clear-btn">Limpar</button>
+        </div>
+      </form>
+
+      <div class="result-panel" id="result-panel" role="status" aria-live="polite" hidden>
+        <div class="result-highlight" id="result-highlight">{{VALOR_PRINCIPAL_FORMATADO}}</div>
+        <p id="result-details">{{DETALHES_E_INTERPRETACAO}}</p>
+        <div class="result-actions">
+          <button type="button" class="btn-secondary" id="copy-result-btn">Copiar resultado</button>
+        </div>
+      </div>
+
+      <div class="related-bridge">
+        <p>
+          <strong>Próximo passo:</strong> {{TEXTO_PONTE_INTERNA}} <a href="/{{SLUG_RELACIONADO}}/">{{NOME_FERRAMENTA_RELACIONADA}}</a>.
+        </p>
+      </div>
+    </section>
+
+    <div class="disclaimer-box">
+      <p>
+        <strong>Aviso informativo:</strong> {{AVISO_ESPECIFICO_DA_CALCULADORA}} Os cálculos têm caráter educativo e não substituem orientação profissional.
+      </p>
+    </div>
+
+    <section class="content-section" aria-label="Como o cálculo funciona">
+      <h2>Como funciona este cálculo</h2>
+      <p>{{EXPLICACAO_DA_FORMULA_E_CRITERIOS}}</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>{{COLUNA_1}}</th>
+            <th>{{COLUNA_2}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{FAIXA_A}}</td>
+            <td>{{DESCRICAO_A}}</td>
+          </tr>
+          <tr>
+            <td>{{FAIXA_B}}</td>
+            <td>{{DESCRICAO_B}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="faq-section" aria-label="Perguntas frequentes">
+      <h2>Perguntas frequentes</h2>
+
+      <details>
+        <summary>{{PERGUNTA_1}}</summary>
+        <p>{{RESPOSTA_1}}</p>
+      </details>
+
+      <details>
+        <summary>{{PERGUNTA_2}}</summary>
+        <p>{{RESPOSTA_2}}</p>
+      </details>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <nav class="footer-links" aria-label="Links do rodapé">
+        <a href="/">Home</a>
+        <a href="/guias/">Guias</a>
+        <a href="/sobre/">Sobre</a>
+        <a href="/privacidade/">Privacidade</a>
+        <a href="/contato/">Contato</a>
+      </nav>
+      <p>Ferramentas gratuitas e informativas para o dia a dia. Os cálculos não substituem orientação profissional.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const form = document.getElementById("calc-form");
+      const clearBtn = document.getElementById("clear-btn");
+      const panel = document.getElementById("result-panel");
+      const highlight = document.getElementById("result-highlight");
+      const details = document.getElementById("result-details");
+      const copyBtn = document.getElementById("copy-result-btn");
+
+      if (!form || !panel || !highlight || !details) return;
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        // Substituir pela lógica específica da calculadora
+        highlight.textContent = "—";
+        details.textContent = "Preencha os dados válidos para visualizar o cálculo.";
+        panel.hidden = false;
+      });
+
+      if (clearBtn) {
+        clearBtn.addEventListener("click", function () {
+          form.reset();
+          panel.hidden = true;
+          highlight.textContent = "";
+          details.textContent = "";
+        });
+      }
+
+      if (copyBtn && navigator.clipboard) {
+        copyBtn.addEventListener("click", async function () {
+          try {
+            const text = `${highlight.textContent} — ${details.textContent}`;
+            await navigator.clipboard.writeText(text.trim());
+            copyBtn.textContent = "Copiado!";
+            setTimeout(() => {
+              copyBtn.textContent = "Copiar resultado";
+            }, 1800);
+          } catch (_) {
+            // Ignora falha silenciosa se permissão for negada
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
