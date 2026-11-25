@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="RjLbokirzDms_mRlaeNsjQICfXBWl8bO95yAbyRcK9w" />
   <title>Calculadoras Úteis — Ferramentas Gratuitas para o Dia a Dia</title>
   <meta name="description" content="Calculadoras web gratuitas, rápidas e sem cadastro para comparar preços por unidade, planejar saúde e resolver cálculos práticos no navegador." />
   <link rel="canonical" href="https://calculadoras-uteis.pages.dev/" />
-  <meta name="google-site-verification" content="RjLbokirzDms_mRlaeNsjQICfXBWl8bO95yAbyRcK9w" />
   <style>
     :root {
       --bg: #f6f8fa;
@@ -114,16 +114,6 @@
       transform: translateY(-1px);
     }
 
-    .tool-card.upcoming {
-      background: var(--surface-alt);
-      cursor: default;
-    }
-
-    .tool-card.upcoming:hover {
-      border-color: var(--border);
-      transform: none;
-    }
-
     .badge {
       display: inline-block;
       font-size: 0.76rem;
@@ -133,11 +123,6 @@
       background: var(--badge-bg);
       color: var(--badge-text);
       margin-bottom: 10px;
-    }
-
-    .badge.soon {
-      background: #e2e8f0;
-      color: #475569;
     }
 
     .tool-card h2 {
@@ -221,6 +206,7 @@
       <nav class="top-nav" aria-label="Navegação principal">
         <a href="./">Início</a>
         <a href="./comparador-precos/">Comparador de Preços</a>
+        <a href="./metabolismo/">Metabolismo</a>
         <a href="./sobre/">Sobre</a>
         <a href="./privacidade/">Privacidade</a>
       </nav>
@@ -239,14 +225,14 @@
         <span class="tool-cta">Abrir calculadora →</span>
       </a>
 
-      <div class="tool-card upcoming" aria-disabled="true">
+      <a class="tool-card" href="./metabolismo/">
         <div>
-          <span class="badge soon">Em breve</span>
+          <span class="badge">Disponível</span>
           <h2>Metabolismo e Emagrecimento</h2>
-          <p>Estime sua taxa metabólica basal (TMB), gasto calórico diário, meta de hidratação e prazo aproximado para atingir objetivos de peso.</p>
+          <p>Estime sua taxa metabólica basal (TMB), gasto calórico diário, meta de perda por semana ou mês, IMC e faixa de peso de referência no navegador.</p>
         </div>
-        <span class="tool-cta" style="color: var(--muted);">Em preparação</span>
-      </div>
+        <span class="tool-cta">Abrir calculadora →</span>
+      </a>
     </section>
 
     <section class="info-box">
@@ -278,6 +264,7 @@
       <div class="footer-links">
         <a href="./">Início</a>
         <a href="./comparador-precos/">Comparador de Preços</a>
+        <a href="./metabolismo/">Metabolismo</a>
         <a href="./sobre/">Sobre</a>
         <a href="./privacidade/">Política de Privacidade</a>
       </div>
