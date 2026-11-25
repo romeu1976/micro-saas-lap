@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato — Calculadoras Práticas</title>
+  <meta name="description" content="Entre em contato com o Calculadoras Práticas por e-mail para enviar dúvidas, sugestões de calculadoras, correções ou parcerias." />
+  <link rel="canonical" href="https://calculadoras-uteis.pages.dev/contato/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contato — Calculadoras Práticas" />
+  <meta property="og:description" content="Fale diretamente com o Calculadoras Práticas por e-mail para dúvidas, sugestões e correções." />
+  <meta property="og:url" content="https://calculadoras-uteis.pages.dev/contato/" />
+
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="top-nav" aria-label="Navegação principal">
+      <a href="/">Home</a>
+      <a href="/guias/">Guias</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/privacidade/">Privacidade</a>
+      <a href="/contato/" aria-current="page">Contato</a>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <header class="page-header">
+      <h1>Contato</h1>
+      <p class="subtitle">Envie sugestões de novas ferramentas, pedidos de correção, dúvidas ou mensagens gerais diretamente por e-mail.</p>
+    </header>
+
+    <section class="content-section" aria-label="Canal de contato por e-mail">
+      <h2>E-mail direto</h2>
+      <p>
+        Para manter o site leve e sem envio de dados por formulários de terceiros, o atendimento é feito diretamente pelo nosso e-mail:
+      </p>
+
+      <div class="result-panel">
+        <p class="result-highlight" id="contact-email-text">romeujr29@gmail.com</p>
+        <p>Clique no botão para abrir seu aplicativo de e-mail ou copie o endereço com um clique.</p>
+
+        <div class="result-actions">
+          <a class="btn-primary" href="mailto:romeujr29@gmail.com?subject=Contato%20%E2%80%94%20Calculadoras%20Pr%C3%A1ticas">
+            Abrir e-mail (mailto)
+          </a>
+          <button type="button" class="btn-secondary" id="copy-email-btn">
+            Copiar e-mail
+          </button>
+        </div>
+
+        <p id="copy-status" role="status" aria-live="polite" style="margin-top: 0.75rem; margin-bottom: 0;"></p>
+      </div>
+
+      <h2>O que você pode enviar</h2>
+      <ul>
+        <li><strong>Sugestões de calculadoras ou guias:</strong> conte qual conta ou consulta do dia a dia você gostaria de ver por aqui.</li>
+        <li><strong>Correções e melhorias:</strong> se notar algum erro de cálculo, texto ou link quebrado, informe qual página está envolvida.</li>
+        <li><strong>Dúvidas gerais e privacidade:</strong> consulte também nossa <a href="/privacidade/">Política de Privacidade</a> e a página <a href="/sobre/">Sobre</a> antes de enviar.</li>
+      </ul>
+    </section>
+
+    <div class="disclaimer-box">
+      <p>
+        <strong>Aviso importante:</strong> este canal é destinado a suporte do site, sugestões e informações gerais. Não realizamos consultas médicas, nutricionais, jurídicas ou financeiras individuais por e-mail.
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <nav class="footer-links" aria-label="Links do rodapé">
+      <a href="/">Home</a>
+      <a href="/guias/">Guias</a>
+      <a href="/sobre/">Sobre</a>
+      <a href="/privacidade/">Privacidade</a>
+      <a href="/contato/">Contato</a>
+    </nav>
+    <p>Ferramentas gratuitas e informativas para o dia a dia. Os cálculos não substituem orientação profissional.</p>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById("copy-email-btn");
+      const emailEl = document.getElementById("contact-email-text");
+      const statusEl = document.getElementById("copy-status");
+
+      if (!btn || !emailEl || !statusEl) return;
+
+      const emailAddress = emailEl.textContent.trim();
+
+      function showStatus(msg) {
+        statusEl.textContent = msg;
+      }
+
+      btn.addEventListener("click", async function () {
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(emailAddress);
+            showStatus("E-mail copiado para a área de transferência.");
+            return;
+          }
+        } catch (_) {
+          // Usa fallback logo abaixo
+        }
+
+        const tempInput = document.createElement("input");
+        tempInput.value = emailAddress;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+
+        try {
+          document.execCommand("copy");
+          showStatus("E-mail copiado para a área de transferência.");
+        } catch (_) {
+          showStatus("Não foi possível copiar automaticamente. Selecione e copie: " + emailAddress);
+        } finally {
+          document.body.removeChild(tempInput);
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
