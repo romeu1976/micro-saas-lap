@@ -1,0 +1,221 @@
+/* =========================================================
+   Calculadoras Práticas — Estilo Base Compartilhado
+   ========================================================= */
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-alt: #f1f5f9;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --border: #e2e8f0;
+  --primary: #0f766e;
+  --primary-hover: #115e59;
+  --accent-bg: #f0fdfa;
+  --accent-border: #99f6e4;
+  --radius: 10px;
+  --max-width: 780px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+}
+
+/* ---------- Cabeçalho & Navegação ---------- */
+.site-header {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.top-nav {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  align-items: center;
+}
+
+.top-nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.top-nav a:hover {
+  color: var(--primary);
+}
+
+.top-nav a[aria-current="page"] {
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom-color: var(--primary);
+}
+
+/* ---------- Container Principal ---------- */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.page-header,
+.tool-header {
+  margin-bottom: 1.75rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  line-height: 1.25;
+  color: var(--text);
+}
+
+h2 {
+  margin: 1.75rem 0 0.65rem;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background-color: var(--surface-alt);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* ---------- Blocos de Conteúdo & Cards ---------- */
+.content-section,
+.calculator-card,
+.related-links,
+.faq-section {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.content-section h2:first-child,
+.related-links h2:first-child,
+.faq-section h2:first-child {
+  margin-top: 0;
+}
+
+.related-links ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.related-links li {
+  margin-bottom: 0.45rem;
+}
+
+/* ---------- Formulários & Botões (Calculadoras / Contato) ---------- */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+  border-color: var(--primary);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: var(--surface-alt);
+  color: var(--text);
+  border-color: var(--border);
+}
